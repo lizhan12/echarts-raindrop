@@ -1,0 +1,20 @@
+{
+  "name": "echarts-raindrop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/raindrop.js",
+  "scripts": {
+    "dev": "webpack server",
+    "build": "webpack --config ./webpack.base.config.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "echarts": "^5.4.1",
+    "html-webpack-plugin": "^5.5.0",
+    "terser-webpack-plugin": "^5.3.6",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
+}
