@@ -7,6 +7,10 @@
     "dev": "webpack server",
     "build": "webpack --config ./webpack.base.config.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/my-package.git"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
