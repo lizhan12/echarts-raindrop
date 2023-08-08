@@ -1,11 +1,5 @@
 import * as echarts from 'echarts/lib/echarts.js';
-import * as numberUtil from 'echarts/lib/util/number';
-// import raindropShape from './shape';
 import raindropShape from './raindropShape';
-// console.log(echarts.extendChartView);
-var parsePercent = numberUtil.parsePercent;
-
-
 
 echarts.extendChartView({
   type: "raindrop",
@@ -28,18 +22,8 @@ echarts.extendChartView({
     var center = itemModel.get('center');
     center = [parseInt(center[0]) / 100 * width, parseInt(center[1]) / 100 * height]
     // console.log(center);
-
     const radiusPercentage = parseInt(itemModel.get('radius')) / 100;
-    // console.log( parsePercent(itemModel.get('radius')));
-
-
-    // const r = ~~(Math.min(width, height) / 3)
-
-
-    // console.log(radius);
-
-
-    // var size = Math.min(width, height);
+    const pointStyle = itemModel.get("pointStyle")
     const oldData = this._data;
     const waves = []
     data.diff(oldData).add(function (idex) {
@@ -75,13 +59,13 @@ echarts.extendChartView({
       var labelModel = itemModel.getModel('label');
       var style = labelModel.get("style")
       const txtOffset = parseInt(style.fontSize)
-      console.log(style, txtOffset);
+      // console.log(style, txtOffset);
       function formatLabel () {
         var formatted = seriesModel.getFormattedLabel(0, 'normal');
         var defaultVal = (data.get('value', 0) * 100);
         var defaultLabel = data.getName(0) || seriesModel.name;
         if (!isNaN(defaultVal)) {
-          defaultLabel = defaultVal.toFixed(0) + '%';
+          defaultLabel = defaultVal.toFixed(0);
         }
         return formatted == null ? defaultLabel : formatted;
       }
@@ -112,7 +96,7 @@ echarts.extendChartView({
           fill: "#fff",
           ...style
         },
-        position: [width/2-txtOffset, height/2]
+        position: [width / 2 - txtOffset / 2, height / 2]
       };
       var insideTextRect = new echarts.graphic.Rect(textRectOption);
       insideTextRect.disableLabelAnimation = true;
@@ -149,7 +133,7 @@ echarts.extendChartView({
       const seriesColor = seriesModel.get('color');
       normalStyle.color = seriesColor
       let val = data.get('value', 0)
-      console.log(val);
+
       val = val ? val : 0;
       obj.waveHeight = obj.radius * 3 * val;
 
@@ -172,7 +156,9 @@ echarts.extendChartView({
       //   normalStyle.fill = seriesColor[id];
       // }
       // var x = radiusX * 2;
+
       const wave = new raindropShape({
+        pointStyle:pointStyle,
         shape: {
           phase: 200,
           width,
@@ -200,7 +186,6 @@ echarts.extendChartView({
       const maxSpeed = itemModel.get('period')
       let phase = itemModel.get('phase')
       let value = data.get("value", idx);
-      console.log(maxSpeed, phase);
       phase = phase == 'auto' ? idx * Math.PI : phase
       const defaultSpeed = function (maxSpeed) {
         const cnt = data.count();
@@ -208,7 +193,7 @@ echarts.extendChartView({
       }
       let speed = 0;
       if (maxSpeed == 'auto') {
-        speed = defaultSpeed(5000)
+        speed = defaultSpeed(10000)
       } else {
         speed = typeof maxSpeed == 'function' ? maxSpeed(value, idx) : maxSpeed
       }
@@ -230,30 +215,7 @@ echarts.extendChartView({
       // console.log(phase)
 
     }
-
-
-    // console.log("group", itemModel)
-    // // 循环数据，绘制图形
-    // data.each(function (idxy) {
-    //   const itemModel = data.getItemModel(idx); // 获取数据项的配置项
-    //   const shape = api.createShape({ // 创建一个图形元素
-    //     shape: 'circle',
-    //     z: 100, // 指定图形元素的层级
-    //     style: {
-    //       fill: itemModel.get('color'),
-    //     },
-    //   });
-    //   group.add(shape); // 将图形元素添加到 Group 中
-    // });
     return group; // 返回 Group，供 ECharts 进行渲染
-    // group.removeAll()
-    // const data = seriesModel.getData();
-    // const itemModel = data.getItemModel(0);
-    // const center = itemModel.get("center")
-    // const radius = itemModel.get("radius")
-    // const width = api.getWidth();
-    // const height = api.getHeight();
-    // const size = Math.min(width, height);
 
   }
 })

@@ -4,14 +4,20 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   mode: 'development',
+  // devtool: "source-map",
+  // entry: './src/lib/index.js',
   entry: './src/index.js',
-  experiments: {
-    outputModule: true
-  },
+  // experiments: {
+  //   outputModule: true
+  // },
   output: {
-    filename: 'raindrop.js',
+    filename: 'main.js',
+    // libraryTarget: 'umd',
     path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'module'
+    // library: ['raindrop'],
+    // library: {
+    //   type:'module'
+    // }
   },
   optimization: {
     minimizer: [
@@ -26,7 +32,7 @@ module.exports = {
     ]
   },
   externals: {
-    echarts: 'echarts'
+    'echarts': 'echarts'
   }
 
 };

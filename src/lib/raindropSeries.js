@@ -1,4 +1,4 @@
-import * as echarts from 'echarts';
+import * as echarts from 'echarts/lib/echarts';
 echarts.extendSeriesModel({
   type: "series.raindrop",
   optionUpdated: function () {
@@ -6,7 +6,7 @@ echarts.extendSeriesModel({
     option.gridSize = Math.max(Math.floor(option.gridSize), 4);
   },
   getInitialData (option, ecModel) {
-    // console.log(option);
+    console.log(option);
     var dimensions = echarts.helper.createDimensions(option.data, {
       coordDimensions: ['value']
     });
@@ -21,6 +21,9 @@ echarts.extendSeriesModel({
   defaultOption: {
     color: ['#294D99', '#156ACF', '#1598ED', '#45BDFF'],
     center: ['50%', '50%'],
+    pointStyle:{
+      color:"#f00"
+    },
     radius: '80%',
     phase: 'auto',
     period: 'auto',
